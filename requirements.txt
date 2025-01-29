@@ -16,7 +16,6 @@ chardet==5.2.0
 click==8.1.6
 colorama==0.4.6
 comm==0.2.2
-compizconfig-python==0.9.14.2
 configobj==5.0.8
 cryptography==41.0.7
 cupshelpers==1.0
