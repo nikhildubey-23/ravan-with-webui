@@ -1,24 +1,23 @@
 body {
     font-family: Arial, sans-serif;
     background: rgb(2,0,36);
-    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(31,61,218,1) 100%, rgba(0,212,255,1) 100%); 
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(0,212,255,1) 0%, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 79%); 
     margin: 0;
     padding: 0;
     width: 100vw;
     height: 100vh;
-
 }
-.main-container{
+.main-container {
     height: 90%;
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-  
 }
 .container {
-    overflow-y: scroll ;
+    border: 1px solid black;
+    overflow-y: scroll;
     height: 100%;
     margin-top: 45px;
     margin-bottom: 100px;
@@ -26,10 +25,8 @@ body {
     padding: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
-    width:100%;
-
+    width: 100%;
 }
-   
 h1 {
     text-align: center;
     color: #333;
@@ -40,7 +37,7 @@ form {
     gap: 10px;
     justify-content: center;
     align-items: center;
-    padding: 1.5rem 0 ;
+    padding: 1.5rem 0;
 }
 textarea {
     margin-top: 20px;
@@ -51,7 +48,7 @@ textarea {
     border: 1px solid #ccc;
     border-radius: 4px;
     resize: none;
-    border:2px solid black;
+    border: 2px solid black;
     font-size: 2rem;
 }
 button {
@@ -61,8 +58,6 @@ button {
     background-color: #007bff;
     color: white;
     cursor: pointer;
-    
-    
 }
 button:hover {
     background-color: #0056b3;
@@ -91,16 +86,15 @@ button:hover {
 .copy-button:hover {
     background-color: #0056b3;
 }
-.search-container{
+.search-container {
     padding: 0 10px;
     display: flex;
     flex-direction: column;
     position: absolute;
     bottom: 0;
     width: 100%;
-   
 }
-.answer{
+.answer {
     background-color: transparent;
     height: 100%;
     background-color: red;
@@ -108,18 +102,50 @@ button:hover {
     padding: 1rem;
     border: 1px solid black;
 }
-.answer:hover{
+.answer:hover {
     background-color: rgb(235, 33, 33);
 }
-@media (max-width:572px) {
-    .container{
+@media (max-width: 572px) {
+    .container {
         margin-top: 0;
         margin-bottom: 90px;
-        border-radius: 0   ;
+        border-radius: 0;
     }
-    .search-container{
-
+    .search-container {
         background-color: #fff;
-       
     }
+    @media (prefers-color-scheme: dark) {
+        .search-container{
+            background-color: #1e1e1e;
+        }
+    }
+}
+
+/* Dark mode styles */
+@media (prefers-color-scheme: dark) {
+    body {
+        background: rgb(0,212,255);
+        background: linear-gradient(90deg, rgba(0,212,255,1) 0%, rgba(255,255,255,1) 0%, rgba(0,0,0,1) 0%, rgba(30,28,60,1) 100%, rgba(255,255,255,1) 100%, rgba(2,0,36,1) 100%);
+        color: #ffffff;
+    }
+    .container {
+        background: #1e1e1e;
+        color: #ffffff;
+    }
+    h1 {
+        color: #ffffff;
+    }
+    textarea {
+        background: #333;
+        color: #fff;
+        border: 1px solid #555;
+    }
+    .navbar {
+        background-color: #1e1e1e;
+        color: #ffffff;
+    }
+    .output pre {
+        background: #2d2d2d; /* Dark background */
+    }
+    
 }
