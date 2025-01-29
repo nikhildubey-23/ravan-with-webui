@@ -94,6 +94,14 @@ def clear():
     flash("History cleared successfully!")
     return redirect(url_for('index'))
 
+@app.route('/about', methods=['GET'])
+def about():
+    return render_template('about.html')
+
+@app.route('/reachout', methods=['GET'])
+def reachout():
+    return render_template('reachout.html')
+
 def create_prompt():
     prompt_template = """
 Ravan Offensive Security AI Assistant:

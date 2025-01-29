@@ -1,10 +1,10 @@
-<!-- filepath: /home/ravan/Desktop/PythonProjects/flask-app/app/templates/history.html -->
+<!-- filepath: /home/ravan/Desktop/PythonProjects/flask-app/app/templates/about.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>History - Ravan Offensive Security AI Assistant</title>
+    <title>About - Ravan Offensive Security AI Assistant</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <!-- Include Prism.js Dark Theme CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/themes/prism-tomorrow.min.css">
@@ -24,10 +24,10 @@
                     <a class="nav-link" aria-current="page" href="/">Home</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link active" href="/view_history">History</a>
+                    <a class="nav-link" href="/view_history">History</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="/about">About</a>
+                    <a class="nav-link active" href="/about">About</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" href="/reachout">Reach Out</a>
@@ -37,32 +37,16 @@
             </div>
           </nav>
     </div>
-    <div class="main-container-history" style="height:100%;">
-        <div class="container container-history     "style="height:100%;">
-            <h1>User History</h1>
-            <div class="history-buttons">
-                <form method="POST" action="/clear_history">
-                    <button type="submit"class="answer" >Clear History</button>
-                </form>
-                
-            </div>
-            <div>
-                {% if history %}
-                    <ul style="padding-left:0;">
-                        {% for record in history %}     
-                            <li>
-                                <strong>Question:</strong> {{ record[1] }}<br>
-                                <strong>Answer:</strong> {{ record[2] | safe }}<br>
-                                <strong>Timestamp:</strong> {{ record[3] }}<br>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                {% else %}
-                    <p>No history available.</p>
-                {% endif %}
-            </div>
+    <div class="main-container">
+        <div class="container">
+            <h1>About Ravan Offensive Security AI Assistant</h1>
+            <p>Welcome to Ravan Offensive Security AI Assistant. This platform is designed to assist you with various security-related queries and provide insights into offensive security techniques.</p>
+            <p>Our goal is to empower security professionals and enthusiasts with the knowledge and tools they need to stay ahead in the ever-evolving field of cybersecurity.</p>
+            <p>Feel free to explore the features of this platform and make the most out of the resources available.</p>
+            <p>If you have any questions or need further assistance, please do not hesitate to reach out to us.</p>
+            <p>Thank you for choosing Ravan Offensive Security AI Assistant!</p>
+            <p>Developer: Nikhil Dubey </p>
         </div>
-
     </div>
     <!-- Include Prism.js JavaScript and Auto-loader plugin -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/prism.min.js"></script>
@@ -81,8 +65,6 @@
             }
         }
 
-        
-          
         // Apply dark mode preference on page load
         document.addEventListener('DOMContentLoaded', (event) => {
             applyDarkModePreference();
