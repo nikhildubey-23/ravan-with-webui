@@ -126,4 +126,4 @@ Please respond to the following prompt:
     return PromptTemplate.from_template(prompt_template)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)
