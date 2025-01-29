@@ -52,6 +52,7 @@ textarea {
     border-radius: 4px;
     resize: none;
     border:2px solid black;
+    font-size: 2rem;
 }
 button {
     padding: 10px;
@@ -98,4 +99,27 @@ button:hover {
     bottom: 0;
     width: 100%;
    
+}
+.answer{
+    background-color: transparent;
+    height: 100%;
+    background-color: red;
+    border-radius: 1rem;
+    padding: 1rem;
+    border: 1px solid black;
+}
+.answer:hover{
+    background-color: rgb(235, 33, 33);
+}
+@media (max-width:572px) {
+    .container{
+        margin-top: 0;
+        margin-bottom: 90px;
+        border-radius: 0   ;
+    }
+    .search-container{
+
+        background-color: #fff;
+       
+    }
 }
