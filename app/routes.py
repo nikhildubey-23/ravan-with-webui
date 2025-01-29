@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import render_template, request, redirect, url_for, flash, current_app as app
 import os
 import sqlite3
 from datetime import datetime
@@ -9,8 +9,6 @@ import re
 
 load_dotenv()
 
-app = Flask(__name__)
-app.secret_key = 'your_secret_key'  # Change this to a random secret key
 GROQ_API_KEY = os.getenv('GROQ_API_KEY')
 
 def create_database(email):
@@ -116,6 +114,3 @@ Please respond to the following prompt:
 {input}
 """
     return PromptTemplate.from_template(prompt_template)
-
-if __name__ == '__main__':
-    app.run(debug=True)
