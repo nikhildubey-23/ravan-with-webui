@@ -10,7 +10,6 @@ beautifulsoup4==4.12.3
 bleach==6.2.0
 blinker==1.7.0
 Brotli==1.1.0
-ccsm==0.9.14.2
 certifi==2023.11.17
 cffi==1.17.1
 chardet==5.2.0
