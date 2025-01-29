@@ -27,6 +27,9 @@ body {
     border-radius: 8px;
     width: 100%;
 }
+ul{
+    padding-left: 0;
+}
 h1 {
     text-align: center;
     color: #333;
@@ -105,15 +108,26 @@ button:hover {
 .answer:hover {
     background-color: rgb(235, 33, 33);
 }
+
 @media (max-width: 572px) {
     .container {
         margin-top: 0;
         margin-bottom: 90px;
         border-radius: 0;
     }
+    .main-container-history {
+        height: 100%;
+        margin-bottom: 0;
+    }
+    
     .search-container {
         background-color: #fff;
     }
+    .container-history{
+        margin-top:0;
+        margin-bottom:0;
+    }
+    
     @media (prefers-color-scheme: dark) {
         .search-container{
             background-color: #1e1e1e;
@@ -149,3 +163,16 @@ button:hover {
     }
     
 }
+.main-container-history{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.container-history{
+    margin-top:0;
+    margin-bottom: 0;
+}
+
