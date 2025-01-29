@@ -17,8 +17,10 @@ GROQ_API_KEY = os.getenv('GROQ_API_KEY')
 # Set up logging
 logging.basicConfig(level=logging.INFO)
 
-def create_database(email):
-    conn = sqlite3.connect(f'{email}.db')
+DATABASE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'database.db')
+
+def create_database():
+    conn = sqlite3.connect(DATABASE_PATH)
     c = conn.cursor()
     c.execute('''CREATE TABLE IF NOT EXISTS user_history
                  (id INTEGER PRIMARY KEY AUTOINCREMENT, 
@@ -28,24 +30,24 @@ def create_database(email):
     conn.commit()
     conn.close()
 
-def save_to_history(email, question, answer):
-    conn = sqlite3.connect(f'{email}.db')
+def save_to_history(question, answer):
+    conn = sqlite3.connect(DATABASE_PATH)
     c = conn.cursor()
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     c.execute("INSERT INTO user_history (question, answer, timestamp) VALUES (?, ?, ?)", (question, answer, timestamp))
     conn.commit()
     conn.close()
 
-def view_history(email):
-    conn = sqlite3.connect(f'{email}.db')
+def view_history():
+    conn = sqlite3.connect(DATABASE_PATH)
     c = conn.cursor()
     c.execute("SELECT * FROM user_history")
     rows = c.fetchall()
     conn.close()
     return rows
 
-def clear_history(email):
-    conn = sqlite3.connect(f'{email}.db')
+def clear_history():
+    conn = sqlite3.connect(DATABASE_PATH)
     c = conn.cursor()
     c.execute("DELETE FROM user_history")
     conn.commit()
@@ -53,9 +55,8 @@ def clear_history(email):
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    email = "default_user"
-    if not os.path.exists(f'{email}.db'):
-        create_database(email)
+    if not os.path.exists(DATABASE_PATH):
+        create_database()
 
     output = None
     output_language = "plaintext"  # Default language
@@ -80,26 +81,24 @@ def index():
             output = re.sub(r'(?s)(```.*?```|[^`]+)', replace_double_asterisks, output)
             output = re.sub(r'```(\w+)\n(.*?)```', r'<pre><code class="language-\1">\2</code></pre>', output, flags=re.DOTALL)  # Wrap code blocks in <pre><code> tags
 
-            save_to_history(email, user_input, output)
+            save_to_history(user_input, output)
             flash(output)
         except Exception as e:
             logging.error(f"Error processing request: {e}")
             flash("An error occurred while processing your request. Please try again.")
             return jsonify({"error": str(e)}), 500
 
-    history = view_history(email)
+    history = view_history()
     return render_template('index.html', history=history, output=output, output_language=output_language)
 
 @app.route('/view_history', methods=['GET'])
 def view_history_page():
-    email = "default_user"
-    history = view_history(email)
+    history = view_history()
     return render_template('history.html', history=history)
 
 @app.route('/clear_history', methods=['POST'])
 def clear():
-    email = "default_user"
-    clear_history(email)
+    clear_history()
     flash("History cleared successfully!")
     return redirect(url_for('index'))
 
