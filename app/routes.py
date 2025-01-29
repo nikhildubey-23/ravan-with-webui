@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
 import os
 import sqlite3
 from datetime import datetime
@@ -6,12 +6,16 @@ from dotenv import load_dotenv
 from langchain_groq import ChatGroq
 from langchain_core.prompts import PromptTemplate
 import re
+import logging
 
 load_dotenv()
 
 app = Flask(__name__)
 app.secret_key = os.getenv('SECRET_KEY', 'your_secret_key')  # Use environment variable or default value
 GROQ_API_KEY = os.getenv('GROQ_API_KEY')
+
+# Set up logging
+logging.basicConfig(level=logging.INFO)
 
 def create_database(email):
     conn = sqlite3.connect(f'{email}.db')
@@ -56,27 +60,32 @@ def index():
     output = None
     output_language = "plaintext"  # Default language
     if request.method == 'POST':
-        user_input = request.form['user_input']
-        llm = ChatGroq(
-            temperature=0, 
-            groq_api_key=GROQ_API_KEY, 
-            model_name="deepseek-r1-distill-llama-70b"
-        )
-        prompt_template = create_prompt()
-        chain_extract = prompt_template | llm 
-        res = chain_extract.invoke(user_input)
-        output = re.sub(r'<think>.*?</think>', '', res.content, flags=re.DOTALL).strip()  # Remove <think> tags and their content
+        try:
+            user_input = request.form['user_input']
+            llm = ChatGroq(
+                temperature=0, 
+                groq_api_key=GROQ_API_KEY, 
+                model_name="deepseek-r1-distill-llama-70b"
+            )
+            prompt_template = create_prompt()
+            chain_extract = prompt_template | llm 
+            res = chain_extract.invoke(user_input)
+            output = re.sub(r'<think>.*?</think>', '', res.content, flags=re.DOTALL).strip()  # Remove <think> tags and their content
 
-        # Preprocess the output to replace ** with <h2> tags only outside of code blocks
-        def replace_double_asterisks(match):
-            text = match.group(0)
-            return re.sub(r'\*\*(.*?)\*\*', r'<h2>\1</h2>', text)
+            # Preprocess the output to replace ** with <h2> tags only outside of code blocks
+            def replace_double_asterisks(match):
+                text = match.group(0)
+                return re.sub(r'\*\*(.*?)\*\*', r'<h2>\1</h2>', text)
 
-        output = re.sub(r'(?s)(```.*?```|[^`]+)', replace_double_asterisks, output)
-        output = re.sub(r'```(\w+)\n(.*?)```', r'<pre><code class="language-\1">\2</code></pre>', output, flags=re.DOTALL)  # Wrap code blocks in <pre><code> tags
+            output = re.sub(r'(?s)(```.*?```|[^`]+)', replace_double_asterisks, output)
+            output = re.sub(r'```(\w+)\n(.*?)```', r'<pre><code class="language-\1">\2</code></pre>', output, flags=re.DOTALL)  # Wrap code blocks in <pre><code> tags
 
-        save_to_history(email, user_input, output)
-        flash(output)
+            save_to_history(email, user_input, output)
+            flash(output)
+        except Exception as e:
+            logging.error(f"Error processing request: {e}")
+            flash("An error occurred while processing your request. Please try again.")
+            return jsonify({"error": str(e)}), 500
 
     history = view_history(email)
     return render_template('index.html', history=history, output=output, output_language=output_language)
