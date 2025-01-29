@@ -2,12 +2,9 @@ from flask import render_template, request, redirect, url_for, flash, current_ap
 import os
 import sqlite3
 from datetime import datetime
-from dotenv import load_dotenv
 from langchain_groq import ChatGroq
 from langchain_core.prompts import PromptTemplate
 import re
-
-load_dotenv()
 
 GROQ_API_KEY = os.getenv('GROQ_API_KEY')
 
