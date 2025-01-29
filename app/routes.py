@@ -1,11 +1,16 @@
-from flask import render_template, request, redirect, url_for, flash, current_app as app
+from flask import Flask, render_template, request, redirect, url_for, flash
 import os
 import sqlite3
 from datetime import datetime
+from dotenv import load_dotenv
 from langchain_groq import ChatGroq
 from langchain_core.prompts import PromptTemplate
 import re
 
+load_dotenv()
+
+app = Flask(__name__)
+app.secret_key = os.getenv('SECRET_KEY', 'your_secret_key')  # Use environment variable or default value
 GROQ_API_KEY = os.getenv('GROQ_API_KEY')
 
 def create_database(email):
@@ -111,3 +116,6 @@ Please respond to the following prompt:
 {input}
 """
     return PromptTemplate.from_template(prompt_template)
+
+if __name__ == '__main__':
+    app.run(debug=True)
